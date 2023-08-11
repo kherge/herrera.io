@@ -93,6 +93,10 @@
       padding: 1rem;
     }
 
+    .person.active {
+      background-color: #2a2f34;
+    }
+
     .person > h2 {
       margin-bottom: 1rem;
       text-align: center;
@@ -114,7 +118,7 @@
       <h1>The Herreras</h1>
     </header>
     <main class="people">
-      <section class="person">
+      <section class="person" id="kevin">
         <h2><a class="link-light link-underline-opacity-0" href="#kevin" name="kevin">Kevin</a></h2>
         <img alt="A picture of Kevin smiling at the camera"
           src="https://gravatar.com/avatar/4c259c8faf621a04a489aa2f2497fc43?s=400&d=robohash&r=pg" />
@@ -143,7 +147,28 @@
     integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
+    function highlightAnchoredPerson() {
+      if (!location.hash) {
+        return;
+      }
 
+      const previous = document.querySelector('.person.active');
+
+      if (previous) {
+        previous.classList.remove('active');
+      }
+
+      const person = document.querySelector(location.hash);
+
+      if (person) {
+
+        person.classList.add('active');
+      }
+    }
+
+    highlightAnchoredPerson();
+
+    addEventListener('hashchange', () => highlightAnchoredPerson());
   </script>
 </body>
 
