@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="assets/style.css" />
   <style type="text/css">
     /* base styling */
     html,
@@ -46,7 +45,7 @@
       width: 100%;
     }
 
-    .stage > .title {
+    .stage>.title {
       flex-grow: 0;
       flex-shrink: 0;
       justify-content: center;
@@ -54,12 +53,12 @@
       padding: 1rem;
     }
 
-    .stage > .people {
+    .stage>.people {
       flex-grow: 1;
     }
 
     /* title styling */
-    .title > h1 {
+    .title>h1 {
       margin: 0;
       text-align: center;
     }
@@ -93,16 +92,16 @@
       padding: 1rem;
     }
 
-    .person.active {
-      background-color: #2a2f34;
+    .person.hidden {
+      display: none;
     }
 
-    .person > h2 {
+    .person>h2 {
       margin-bottom: 1rem;
       text-align: center;
     }
 
-    .person > img {
+    .person>img {
       border-radius: 8%;
       height: auto;
       margin-bottom: 1rem;
@@ -115,11 +114,11 @@
 <body>
   <section class="stage">
     <header class="title">
-      <h1>The Herreras</h1>
+      <h1><a class="link-light link-underline-opacity-0" href="/">The Herreras</a></h1>
     </header>
     <main class="people">
       <section class="person" id="kevin">
-        <h2><a class="link-light link-underline-opacity-0" href="#kevin" name="kevin">Kevin</a></h2>
+        <h2><a class="link-light link-underline-opacity-0" href="#kevin">Kevin</a></h2>
         <img alt="A picture of Kevin smiling at the camera"
           src="https://gravatar.com/avatar/4c259c8faf621a04a489aa2f2497fc43?s=400&d=robohash&r=pg" />
         <div class="d-grid gap-2 links">
@@ -143,32 +142,31 @@
       </section>
     </main>
   </section>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js"
-    integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
-    function highlightAnchoredPerson() {
-      if (!location.hash) {
-        return;
-      }
+    function hideOthers(id) {
+      const person = document.querySelector(id);
 
-      const previous = document.querySelector('.person.active');
-
-      if (previous) {
-        previous.classList.remove('active');
-      }
-
-      const person = document.querySelector(location.hash);
+      person.classList.remove('hidden');
 
       if (person) {
-
-        person.classList.add('active');
+        Array
+          .from(document.querySelectorAll('.person'))
+          .filter(found => found !== person)
+          .forEach(found => found.classList.add('hidden'));
       }
     }
 
-    highlightAnchoredPerson();
+    if (location.hash) {
+      hideOthers(location.hash);
+    }
 
-    addEventListener('hashchange', () => highlightAnchoredPerson());
+    addEventListener('hashchange', () => {
+      if (location.hash) {
+        hideOthers(location.hash)
+      } else {
+        document.querySelectorAll('.person').forEach(person => person.classList.remove('hidden'));
+      }
+    });
   </script>
 </body>
 
